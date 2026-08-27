@@ -1,0 +1,2268 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Inter X | شبکه اجتماعی هواداران اینتر میلان</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  
+  <!-- Tailwind CSS v4 -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  
+  <!-- React 18 & Babel for JSX -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    :root {
+      --inter-blue: #0066B2;
+      --inter-blue-glow: rgba(0, 102, 178, 0.4);
+      --inter-gold: #C6A052;
+      --bg-base: #000000;
+      --bg-surface: #0a0d14;
+      --bg-surface-elevated: #111622;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(0, 102, 178, 0.35);
+      --font-scale: 1;
+    }
+
+    [data-theme="light"] {
+      --bg-base: #f4f6fa;
+      --bg-surface: #ffffff;
+      --bg-surface-elevated: #f8fafc;
+      --border-color: rgba(0, 0, 0, 0.08);
+      --border-hover: rgba(0, 102, 178, 0.3);
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--bg-base);
+      color: #ffffff;
+      overflow-x: hidden;
+      font-size: calc(15px * var(--font-scale));
+      line-height: 1.6;
+    }
+
+    [data-theme="light"] body {
+      color: #0f172a;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--inter-blue);
+    }
+
+    /* Glassmorphism */
+    .glass {
+      background: rgba(10, 13, 20, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+    [data-theme="light"] .glass {
+      background: rgba(255, 255, 255, 0.82);
+    }
+
+    /* Light mode overrides for utility-heavy layout */
+    [data-theme="light"] body {
+      background-color: #f4f6fa;
+      color: #0f172a;
+    }
+    [data-theme="light"] .text-white {
+      color: #0f172a !important;
+    }
+    [data-theme="light"] .text-zinc-100 {
+      color: #1e293b !important;
+    }
+    [data-theme="light"] .text-zinc-200,
+    [data-theme="light"] .text-zinc-300,
+    [data-theme="light"] .text-zinc-400,
+    [data-theme="light"] .text-zinc-500,
+    [data-theme="light"] .text-zinc-600 {
+      color: #475569 !important;
+    }
+    [data-theme="light"] .bg-black,
+    [data-theme="light"] .bg-zinc-950,
+    [data-theme="light"] .bg-zinc-900,
+    [data-theme="light"] .bg-zinc-800 {
+      background-color: #ffffff !important;
+    }
+    [data-theme="light"] .bg-zinc-900\/90,
+    [data-theme="light"] .bg-zinc-900\/80,
+    [data-theme="light"] .bg-zinc-900\/60,
+    [data-theme="light"] .bg-zinc-950\/40,
+    [data-theme="light"] .bg-black\/50,
+    [data-theme="light"] .bg-black\/80 {
+      background-color: #ffffff !important;
+    }
+    [data-theme="light"] .border-zinc-800,
+    [data-theme="light"] .border-zinc-800\/60,
+    [data-theme="light"] .border-zinc-800\/80,
+    [data-theme="light"] .border-zinc-700 {
+      border-color: rgba(15, 23, 42, 0.12) !important;
+    }
+
+    /* Nerazzurri Gradient Glow */
+    .inter-glow {
+      box-shadow: 0 0 25px var(--inter-blue-glow);
+    }
+    
+    .inter-gradient-text {
+      background: linear-gradient(135deg, #0080FF 0%, #0066B2 50%, #C6A052 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Animations */
+    @keyframes pulseHeart {
+      0% { transform: scale(1); }
+      30% { transform: scale(1.35); }
+      60% { transform: scale(0.9); }
+      100% { transform: scale(1); }
+    }
+    .heart-bounce {
+      animation: pulseHeart 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-slide-down {
+      animation: slideDown 0.25s ease-out forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .animate-fade-in {
+      animation: fadeIn 0.2s ease-out forwards;
+    }
+
+    .shimmer {
+      background: linear-gradient(90deg, rgba(255,255,255,0.02) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.02) 75%);
+      background-size: 200% 100%;
+      animation: shimmerAnimation 1.8s infinite;
+    }
+    @keyframes shimmerAnimation {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+  </style>
+</head>
+<body class="bg-black text-white antialiased selection:bg-blue-600 selection:text-white">
+  <div id="root"></div>
+
+  <!-- Main React Application -->
+  <script type="text/babel">
+    const { useState, useEffect, useRef, useMemo, useCallback } = React;
+
+    // ==========================================
+    // 1. CONSTANTS & SECURITY CONFIG
+    // ==========================================
+    const STORAGE_KEY = "interx_cloud_v3";
+    const CHANNEL_NAME = "interx_live_network_bus";
+    const REALTIME_TOPIC = "interx_nerazzurri_global_v1";
+    const REALTIME_SERVER_URL = "https://ntfy.sh/" + REALTIME_TOPIC;
+    const MAX_POST_CHARS = 3000;
+    const PBKDF2_ITERATIONS = 100000;
+
+    const SUPPORTED_LANGUAGES = [
+      { code: "fa", label: "فارسی" },
+      { code: "en", label: "English" },
+      { code: "it", label: "Italiano" },
+      { code: "es", label: "Espanol" },
+      { code: "ja", label: "Japanese" },
+      { code: "ko", label: "Korean" },
+      { code: "ru", label: "Russian" },
+      { code: "hi", label: "Hindi" },
+      { code: "ar", label: "Arabic" }
+    ];
+
+    const RTL_LANGS = ["fa", "ar"];
+
+    const UI_TEXT = {
+      fa: { home: "تایم لاین", search: "جستجو", bookmarks: "نشان شده ها", profile: "پروفایل", settings: "تنظیمات", newPost: "پست جدید", forYou: "برای شما", following: "دنبال شوندگان", follow: "فالو", unfollow: "آنفالو", translate: "ترجمه", showOriginal: "نمایش متن اصلی", showTranslated: "نمایش ترجمه", composePlaceholder: "چه خبر؟", publish: "ارسال", login: "ورود", logout: "خروج", refresh: "تازه سازی", cloudOff: "همگام سازی غیرفعال", cloudOn: "آنلاین", cloudRetry: "در حال اتصال مجدد", cloudDown: "سرور در دسترس نیست", emptyFeed: "هنوز هیچ پستی منتشر نشده است", emptyFollowing: "فعلا کسی را فالو نکرده اید", translateLoading: "در حال ترجمه...", translated: "ترجمه شده" },
+      en: { home: "Timeline", search: "Search", bookmarks: "Bookmarks", profile: "Profile", settings: "Settings", newPost: "New Post", forYou: "For you", following: "Following", follow: "Follow", unfollow: "Unfollow", translate: "Translate", showOriginal: "Show original", showTranslated: "Show translation", composePlaceholder: "What's happening?", publish: "Post", login: "Login", logout: "Logout", refresh: "Refresh", cloudOff: "Sync disabled", cloudOn: "Online", cloudRetry: "Reconnecting", cloudDown: "Server unavailable", emptyFeed: "No posts yet", emptyFollowing: "You are not following anyone yet", translateLoading: "Translating...", translated: "Translated" },
+      it: { home: "Timeline", search: "Cerca", bookmarks: "Segnalibri", profile: "Profilo", settings: "Impostazioni", newPost: "Nuovo post", forYou: "Per te", following: "Seguiti", follow: "Segui", unfollow: "Smetti di seguire", translate: "Traduci", showOriginal: "Mostra originale", showTranslated: "Mostra traduzione", composePlaceholder: "Che succede?", publish: "Pubblica", login: "Accedi", logout: "Esci", refresh: "Aggiorna", cloudOff: "Sync disattivato", cloudOn: "Online", cloudRetry: "Riconnessione", cloudDown: "Server non disponibile", emptyFeed: "Nessun post", emptyFollowing: "Non segui ancora nessuno", translateLoading: "Traduzione in corso...", translated: "Tradotto" },
+      es: { home: "Inicio", search: "Buscar", bookmarks: "Guardados", profile: "Perfil", settings: "Ajustes", newPost: "Nuevo post", forYou: "Para ti", following: "Siguiendo", follow: "Seguir", unfollow: "Dejar de seguir", translate: "Traducir", showOriginal: "Ver original", showTranslated: "Ver traduccion", composePlaceholder: "Que esta pasando?", publish: "Publicar", login: "Entrar", logout: "Salir", refresh: "Actualizar", cloudOff: "Sincronizacion desactivada", cloudOn: "En linea", cloudRetry: "Reconectando", cloudDown: "Servidor no disponible", emptyFeed: "No hay publicaciones", emptyFollowing: "Aun no sigues a nadie", translateLoading: "Traduciendo...", translated: "Traducido" },
+      ja: { home: "ホーム", search: "検索", bookmarks: "ブックマーク", profile: "プロフィール", settings: "設定", newPost: "新規投稿", forYou: "おすすめ", following: "フォロー中", follow: "フォロー", unfollow: "フォロー解除", translate: "翻訳", showOriginal: "原文表示", showTranslated: "翻訳表示", composePlaceholder: "いまどうしてる？", publish: "投稿", login: "ログイン", logout: "ログアウト", refresh: "更新", cloudOff: "同期オフ", cloudOn: "オンライン", cloudRetry: "再接続中", cloudDown: "サーバー利用不可", emptyFeed: "投稿はまだありません", emptyFollowing: "まだ誰もフォローしていません", translateLoading: "翻訳中...", translated: "翻訳済み" },
+      ko: { home: "홈", search: "검색", bookmarks: "북마크", profile: "프로필", settings: "설정", newPost: "새 게시물", forYou: "추천", following: "팔로잉", follow: "팔로우", unfollow: "언팔로우", translate: "번역", showOriginal: "원문 보기", showTranslated: "번역 보기", composePlaceholder: "무슨 일이 일어나고 있나요?", publish: "게시", login: "로그인", logout: "로그아웃", refresh: "새로고침", cloudOff: "동기화 꺼짐", cloudOn: "온라인", cloudRetry: "재연결 중", cloudDown: "서버 사용 불가", emptyFeed: "게시물이 없습니다", emptyFollowing: "아직 팔로우한 사용자가 없습니다", translateLoading: "번역 중...", translated: "번역됨" },
+      ru: { home: "Лента", search: "Поиск", bookmarks: "Закладки", profile: "Профиль", settings: "Настройки", newPost: "Новый пост", forYou: "Для вас", following: "Подписки", follow: "Подписаться", unfollow: "Отписаться", translate: "Перевести", showOriginal: "Показать оригинал", showTranslated: "Показать перевод", composePlaceholder: "Что происходит?", publish: "Опубликовать", login: "Войти", logout: "Выйти", refresh: "Обновить", cloudOff: "Синхронизация выключена", cloudOn: "Онлайн", cloudRetry: "Переподключение", cloudDown: "Сервер недоступен", emptyFeed: "Постов пока нет", emptyFollowing: "Вы пока никого не читаете", translateLoading: "Перевод...", translated: "Переведено" },
+      hi: { home: "टाइमलाइन", search: "खोज", bookmarks: "बुकमार्क", profile: "प्रोफाइल", settings: "सेटिंग्स", newPost: "नई पोस्ट", forYou: "आपके लिए", following: "फॉलोइंग", follow: "फॉलो", unfollow: "अनफॉलो", translate: "अनुवाद", showOriginal: "मूल दिखाएं", showTranslated: "अनुवाद दिखाएं", composePlaceholder: "क्या हो रहा है?", publish: "पोस्ट", login: "लॉगिन", logout: "लॉगआउट", refresh: "रिफ्रेश", cloudOff: "सिंक बंद", cloudOn: "ऑनलाइन", cloudRetry: "दोबारा कनेक्ट हो रहा है", cloudDown: "सर्वर उपलब्ध नहीं", emptyFeed: "अभी कोई पोस्ट नहीं", emptyFollowing: "आपने अभी किसी को फॉलो नहीं किया", translateLoading: "अनुवाद हो रहा है...", translated: "अनुवादित" },
+      ar: { home: "الرئيسية", search: "بحث", bookmarks: "المحفوظات", profile: "الملف الشخصي", settings: "الإعدادات", newPost: "منشور جديد", forYou: "لك", following: "المتابَعون", follow: "متابعة", unfollow: "إلغاء المتابعة", translate: "ترجمة", showOriginal: "عرض النص الأصلي", showTranslated: "عرض الترجمة", composePlaceholder: "ماذا يحدث؟", publish: "نشر", login: "تسجيل الدخول", logout: "تسجيل الخروج", refresh: "تحديث", cloudOff: "المزامنة متوقفة", cloudOn: "متصل", cloudRetry: "إعادة الاتصال", cloudDown: "الخادم غير متاح", emptyFeed: "لا توجد منشورات", emptyFollowing: "أنت لا تتابع أحدا بعد", translateLoading: "جار الترجمة...", translated: "مترجم" }
+    };
+
+    const guessLanguage = (text = "") => {
+      if (/[\u067E\u0686\u0698\u06AF\u06A9\u06CC]/u.test(text)) return "fa";
+      if (/\p{Script=Han}|\p{Script=Hiragana}|\p{Script=Katakana}/u.test(text)) return "ja";
+      if (/\p{Script=Hangul}/u.test(text)) return "ko";
+      if (/\p{Script=Cyrillic}/u.test(text)) return "ru";
+      if (/\p{Script=Devanagari}/u.test(text)) return "hi";
+      if (/[\u0600-\u06FF]/u.test(text)) return "ar";
+      return "auto";
+    };
+
+    const TranslationEngine = {
+      async translate(text, targetLang, sourceLang = "auto") {
+        if (!text?.trim()) return "";
+        const src = sourceLang || "auto";
+        const memoryUrl = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${encodeURIComponent(src)}|${encodeURIComponent(targetLang)}`;
+        try {
+          const res = await fetch(memoryUrl);
+          if (res.ok) {
+            const data = await res.json();
+            const out = data?.responseData?.translatedText || "";
+            if (out) return out;
+          }
+        } catch {}
+
+        const googleUrl = `https://translate.googleapis.com/translate_a/single?client=gtx&dt=t&dj=1&sl=${encodeURIComponent(src)}&tl=${encodeURIComponent(targetLang)}&q=${encodeURIComponent(text)}`;
+        const backupRes = await fetch(googleUrl);
+        if (!backupRes.ok) throw new Error("translate failed");
+        const backupData = await backupRes.json();
+        return Array.isArray(backupData?.sentences) ? backupData.sentences.map((s) => s?.trans || "").join("") : text;
+      }
+    };
+
+    // ==========================================
+    // 2. CRYPTO & SECURITY ENGINE
+    // ==========================================
+    const SecurityEngine = {
+      toBase64(buf) {
+        return btoa(String.fromCharCode(...new Uint8Array(buf)));
+      },
+      fromBase64(str) {
+        return Uint8Array.from(atob(str), c => c.charCodeAt(0));
+      },
+      async hashPassword(password, saltBase64) {
+        if (!window.crypto?.subtle) {
+          // Fallback simple hash for older environments
+          return btoa(unescape(encodeURIComponent(password + saltBase64)));
+        }
+        const encoder = new TextEncoder();
+        const keyMaterial = await crypto.subtle.importKey(
+          "raw",
+          encoder.encode(password),
+          "PBKDF2",
+          false,
+          ["deriveBits"]
+        );
+        const bits = await crypto.subtle.deriveBits(
+          {
+            name: "PBKDF2",
+            salt: this.fromBase64(saltBase64),
+            iterations: PBKDF2_ITERATIONS,
+            hash: "SHA-256"
+          },
+          keyMaterial,
+          256
+        );
+        return this.toBase64(bits);
+      },
+      async createPasswordRecord(password) {
+        const salt = new Uint8Array(16);
+        crypto.getRandomValues(salt);
+        const saltBase64 = this.toBase64(salt.buffer);
+        const hash = await this.hashPassword(password, saltBase64);
+        return { hash, salt: saltBase64, createdAt: Date.now() };
+      },
+      async verifyPassword(password, record) {
+        if (!record?.hash || !record?.salt) return false;
+        const candidateHash = await this.hashPassword(password, record.salt);
+        return candidateHash === record.hash;
+      },
+      sanitizeUsername(u = "") {
+        return u.toLowerCase().replace(/@/g, "").replace(/\s+/g, "").replace(/[^a-z0-9_]/g, "").slice(0, 30);
+      },
+      validatePassword(p = "") {
+        return p.length >= 8 && /[A-Z]/.test(p) && /[a-z]/.test(p) && /[0-9]/.test(p);
+      }
+    };
+
+    // ==========================================
+    // 3. SEED COMMUNITY DATA (Live Network Demo)
+    // ==========================================
+    const DEFAULT_COMMUNITY_USERS = [];
+
+    // ==========================================
+    // 4. DATA LAYER & SERVER ADAPTER
+    // ==========================================
+    class ServerDataLayer {
+      constructor() {
+        this.broadcastChannel = null;
+        try {
+          if (typeof window !== "undefined" && "BroadcastChannel" in window) {
+            this.broadcastChannel = new BroadcastChannel(CHANNEL_NAME);
+          }
+        } catch (e) {
+          console.warn("BroadcastChannel not supported", e);
+        }
+      }
+
+      loadState() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (raw) {
+            const data = JSON.parse(raw);
+            if (data && typeof data === "object") {
+              return this.ensureStructure(data);
+            }
+          }
+        } catch (e) {
+          console.error("Storage load error:", e);
+        }
+        return this.getInitialState();
+      }
+
+      saveState(state) {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        } catch (e) {
+          console.error("Storage save error:", e);
+        }
+      }
+
+      broadcast(type, payload) {
+        if (this.broadcastChannel) {
+          try {
+            this.broadcastChannel.postMessage({ type, payload, timestamp: Date.now() });
+          } catch (e) {
+            console.error("Broadcast error:", e);
+          }
+        }
+      }
+
+      ensureStructure(data) {
+        const initial = this.getInitialState();
+        const users = Array.isArray(data.users) ? data.users.filter((u) => !["user_official", "user_lautaro", "user_curvanord"].includes(u?.id)) : [];
+        const sessionUserId = users.some((u) => u.id === data.sessionUserId) ? data.sessionUserId : null;
+        return {
+          users,
+          posts: Array.isArray(data.posts) ? data.posts : [],
+          comments: Array.isArray(data.comments) ? data.comments : [],
+          likes: data.likes && typeof data.likes === "object" ? data.likes : {},
+          bookmarks: data.bookmarks && typeof data.bookmarks === "object" ? data.bookmarks : {},
+          follows: data.follows && typeof data.follows === "object" ? data.follows : {},
+          sessionUserId,
+          settings: { ...initial.settings, ...(data.settings || {}) },
+          sharedUpdatedAt: Number(data.sharedUpdatedAt) || 0
+        };
+      }
+
+      // Live Server Publish to ntfy cloud topic for all devices
+      async publishLiveEvent(type, payload) {
+        this.broadcast(type, payload);
+        try {
+          await fetch(REALTIME_SERVER_URL, {
+            method: "POST",
+            body: JSON.stringify({ type, payload, timestamp: Date.now() })
+          });
+        } catch (err) {
+          console.warn("Live event push error:", err);
+        }
+      }
+
+      // Fetch recent history sent to the live server
+      async fetchLiveHistory(onEvent) {
+        try {
+          const res = await fetch(`${REALTIME_SERVER_URL}/json?poll=1&since=all`);
+          if (!res.ok) return;
+          const text = await res.text();
+          const lines = text.trim().split("\n");
+          lines.forEach((line) => {
+            if (!line) return;
+            try {
+              const json = JSON.parse(line);
+              if (json.event === "message" && json.message) {
+                const parsed = JSON.parse(json.message);
+                if (parsed.type && parsed.payload) {
+                  onEvent(parsed.type, parsed.payload);
+                }
+              }
+            } catch (e) {}
+          });
+        } catch (err) {
+          console.warn("History pull error:", err);
+        }
+      }
+
+      // Live Server EventSource (SSE) listener for realtime instant sync
+      connectLiveServer(onEvent, onStatus) {
+        let es = null;
+        try {
+          es = new EventSource(`${REALTIME_SERVER_URL}/sse`);
+          es.onopen = () => onStatus("cloudOn");
+          es.onerror = () => onStatus("cloudRetry");
+          es.onmessage = (e) => {
+            try {
+              const json = JSON.parse(e.data);
+              if (json.event === "message" && json.message) {
+                const parsed = JSON.parse(json.message);
+                if (parsed.type && parsed.payload) {
+                  onEvent(parsed.type, parsed.payload);
+                }
+              }
+            } catch (err) {}
+          };
+        } catch (err) {
+          onStatus("cloudDown");
+        }
+        return () => {
+          if (es) es.close();
+        };
+      }
+
+      getInitialState() {
+        const browserLang = (typeof navigator !== "undefined" ? (navigator.language || "fa") : "fa").slice(0, 2).toLowerCase();
+        const safeLang = SUPPORTED_LANGUAGES.some((l) => l.code === browserLang) ? browserLang : "fa";
+        return {
+          users: DEFAULT_COMMUNITY_USERS,
+          posts: [], // Completely clean posts as requested
+          comments: [],
+          likes: {},
+          bookmarks: {},
+          sessionUserId: null,
+          settings: {
+            theme: "dark",
+            language: safeLang,
+            soundEnabled: true,
+            autoPlayVideo: false,
+            fontScale: 1,
+            serverSync: true
+          },
+          follows: {},
+          sharedUpdatedAt: 0
+        };
+      }
+    }
+
+    const dataLayer = new ServerDataLayer();
+
+    // ==========================================
+    // 5. ICONS (High Quality Sleek SVGs)
+    // ==========================================
+    const Icons = {
+      Logo: () => (
+        <svg className="w-8 h-8" viewBox="0 0 100 100" fill="none">
+          <circle cx="50" cy="50" r="46" stroke="#0066B2" strokeWidth="6" className="animate-pulse" />
+          <circle cx="50" cy="50" r="38" stroke="#C6A052" strokeWidth="3" />
+          <path d="M36 28L64 72M64 28L36 72" stroke="#FFFFFF" strokeWidth="7" strokeLinecap="round" />
+          <path d="M50 20V80" stroke="#0080FF" strokeWidth="4" strokeLinecap="round" />
+        </svg>
+      ),
+      Home: ({ active }) => (
+        <svg className={`w-6 h-6 ${active ? 'text-blue-500 stroke-[2.5]' : 'text-zinc-400 stroke-2'}`} viewBox="0 0 24 24" fill={active ? "currentColor" : "none"} stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+        </svg>
+      ),
+      Search: ({ active }) => (
+        <svg className={`w-6 h-6 ${active ? 'text-blue-500 stroke-[2.5]' : 'text-zinc-400 stroke-2'}`} viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+        </svg>
+      ),
+      Bookmark: ({ active, filled }) => (
+        <svg className={`w-6 h-6 ${filled ? 'text-yellow-500 fill-yellow-500' : active ? 'text-blue-500 stroke-[2.5]' : 'text-zinc-400 stroke-2'}`} viewBox="0 0 24 24" fill={filled ? "currentColor" : "none"} stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z" />
+        </svg>
+      ),
+      Match: ({ active }) => (
+        <svg className={`w-6 h-6 ${active ? 'text-blue-500 stroke-[2.5]' : 'text-zinc-400 stroke-2'}`} viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871a2.99 2.99 0 01-1.398-.352 11.968 11.968 0 01-3.21-3.21 2.99 2.99 0 01-.352-1.398v-.871c0-.622.504-1.125 1.125-1.125H16.5m0 0V4.875c0-.621-.503-1.125-1.125-1.125h-6.75C8.004 3.75 7.5 4.254 7.5 4.875V7.5" />
+        </svg>
+      ),
+      Profile: ({ active }) => (
+        <svg className={`w-6 h-6 ${active ? 'text-blue-500 stroke-[2.5]' : 'text-zinc-400 stroke-2'}`} viewBox="0 0 24 24" fill={active ? "currentColor" : "none"} stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+        </svg>
+      ),
+      Settings: ({ active }) => (
+        <svg className={`w-6 h-6 ${active ? 'text-blue-500 stroke-[2.5]' : 'text-zinc-400 stroke-2'}`} viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z" />
+          <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+      ),
+      Heart: ({ filled }) => (
+        <svg className={`w-5 h-5 transition-transform duration-200 ${filled ? 'text-rose-500 fill-rose-500 heart-bounce' : 'text-zinc-400 group-hover:text-rose-400 stroke-2'}`} viewBox="0 0 24 24" fill={filled ? "currentColor" : "none"} stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+        </svg>
+      ),
+      Comment: () => (
+        <svg className="w-5 h-5 text-zinc-400 group-hover:text-blue-400 stroke-2" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a.75.75 0 01-1.074-.665V17.5A8.04 8.04 0 013 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" />
+        </svg>
+      ),
+      Share: () => (
+        <svg className="w-5 h-5 text-zinc-400 group-hover:text-blue-400 stroke-2" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" />
+        </svg>
+      ),
+      Verified: () => (
+        <svg className="w-4 h-4 text-blue-400 inline-block mr-1 fill-blue-500" viewBox="0 0 24 24">
+          <path fillRule="evenodd" clipRule="evenodd" d="M8.603 3.799A4.49 4.49 0 0112 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 013.498 1.307 4.491 4.491 0 011.307 3.497A4.49 4.49 0 0121.75 12a4.49 4.49 0 01-1.549 3.397 4.491 4.491 0 01-1.307 3.497 4.491 4.491 0 01-3.497 1.307A4.49 4.49 0 0112 21.75a4.49 4.49 0 01-3.397-1.549 4.49 4.49 0 01-3.498-1.306 4.491 4.491 0 01-1.307-3.498A4.49 4.49 0 012.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 011.307-3.497 4.49 4.49 0 013.497-1.307zm7.007 6.387a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" />
+        </svg>
+      ),
+      Sparkles: () => (
+        <svg className="w-5 h-5 text-yellow-400 animate-spin" style={{ animationDuration: '6s' }} viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
+        </svg>
+      )
+    };
+
+    // ==========================================
+    // 6. MAIN APP COMPONENT
+    // ==========================================
+    function InterXApp() {
+      // Global App State
+      const [appData, setAppData] = useState(() => dataLayer.loadState());
+      const [currentRoute, setCurrentRoute] = useState("home"); // home, search, bookmarks, profile, settings
+      const [activeTab, setActiveTab] = useState("forYou"); // forYou, following
+      const [authModalOpen, setAuthModalOpen] = useState(false);
+      const [composeModalOpen, setComposeModalOpen] = useState(false);
+      const [activeCommentPostId, setActiveCommentPostId] = useState(null);
+      const [lightboxMedia, setLightboxMedia] = useState(null);
+      const [toasts, setToasts] = useState([]);
+      const [searchQuery, setSearchQuery] = useState("");
+      const [profileTargetUserId, setProfileTargetUserId] = useState(null);
+      const [cloudStatus, setCloudStatus] = useState("Global sync standby");
+      const skipSnapshotPublishRef = useRef(false);
+      const latestStateRef = useRef(appData);
+      const lastPushedSharedTsRef = useRef(0);
+
+      // Current Logged-in User
+      const currentUser = useMemo(() => {
+        return appData.users.find(u => u.id === appData.sessionUserId) || null;
+      }, [appData.users, appData.sessionUserId]);
+
+      const uiLang = appData.settings.language || "fa";
+      const t = useCallback((key) => UI_TEXT[uiLang]?.[key] || UI_TEXT.en[key] || key, [uiLang]);
+
+      const sortedPosts = useMemo(() => {
+        return [...appData.posts].sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+      }, [appData.posts]);
+
+      const followingIds = useMemo(() => {
+        if (!currentUser) return [];
+        return appData.follows?.[currentUser.id] || [];
+      }, [appData.follows, currentUser]);
+
+      const isFollowingUser = useCallback((userId) => followingIds.includes(userId), [followingIds]);
+
+      const homePosts = useMemo(() => {
+        if (activeTab !== "following" || !currentUser) return sortedPosts;
+        return sortedPosts.filter((p) => p.userId === currentUser.id || followingIds.includes(p.userId));
+      }, [activeTab, currentUser, sortedPosts, followingIds]);
+
+      const [translationCache, setTranslationCache] = useState({});
+      const [translationLoading, setTranslationLoading] = useState({});
+      const [showOriginalMap, setShowOriginalMap] = useState({});
+
+      const translationKey = useCallback((entity, id, lang) => `${entity}:${id}:${lang}`, []);
+
+      const ensureTranslation = useCallback(async (entity, id, text, sourceLang) => {
+        const targetLang = appData.settings.language || "fa";
+        const normalizedSource = sourceLang || guessLanguage(text);
+        if (!text?.trim() || normalizedSource === targetLang) return;
+        const key = translationKey(entity, id, targetLang);
+        if (translationCache[key] || translationLoading[key]) return;
+
+        setTranslationLoading((prev) => ({ ...prev, [key]: true }));
+        try {
+          const translated = await TranslationEngine.translate(text, targetLang, normalizedSource);
+          setTranslationCache((prev) => ({ ...prev, [key]: translated || text }));
+        } catch {
+          setTranslationCache((prev) => ({ ...prev, [key]: text }));
+        } finally {
+          setTranslationLoading((prev) => {
+            const next = { ...prev };
+            delete next[key];
+            return next;
+          });
+        }
+      }, [appData.settings.language, translationCache, translationLoading, translationKey]);
+
+      const toggleOriginal = useCallback((entity, id) => {
+        const key = `${entity}:${id}`;
+        setShowOriginalMap((prev) => ({ ...prev, [key]: !prev[key] }));
+      }, []);
+
+      const updateShared = useCallback((updater) => {
+        setAppData((prev) => {
+          const next = typeof updater === "function" ? updater(prev) : updater;
+          return { ...next, sharedUpdatedAt: Date.now() };
+        });
+      }, []);
+
+      const buildSnapshotPayload = useCallback((snapshot) => ({
+        users: snapshot.users,
+        posts: snapshot.posts,
+        comments: snapshot.comments,
+        likes: snapshot.likes,
+        bookmarks: snapshot.bookmarks,
+        follows: snapshot.follows,
+        sharedUpdatedAt: snapshot.sharedUpdatedAt
+      }), []);
+
+      // Save on State Change
+      useEffect(() => {
+        dataLayer.saveState(appData);
+        latestStateRef.current = appData;
+        if (appData.settings.theme === "light") {
+          document.documentElement.setAttribute("data-theme", "light");
+        } else {
+          document.documentElement.removeAttribute("data-theme");
+        }
+        document.documentElement.style.setProperty("--font-scale", appData.settings.fontScale || 1);
+        document.documentElement.lang = uiLang;
+        document.documentElement.dir = RTL_LANGS.includes(uiLang) ? "rtl" : "ltr";
+      }, [appData, uiLang]);
+
+      // Toast Dispatcher
+      const addToast = useCallback((message, type = "info", action = null) => {
+        const id = "t_" + Date.now() + "_" + Math.random().toString(36).slice(2, 6);
+        setToasts(prev => [...prev, { id, message, type, action }]);
+        setTimeout(() => {
+          setToasts(prev => prev.filter(t => t.id !== id));
+        }, 4000);
+      }, []);
+
+      // Unified Server & Realtime Event Processor
+      const processRemoteEvent = useCallback((type, payload) => {
+        if (!type || !payload) return;
+        if (type === "NEW_POST") {
+          setAppData((prev) => {
+            if (prev.posts.some((p) => p.id === payload.id)) return prev;
+            return { ...prev, posts: [payload, ...prev.posts], sharedUpdatedAt: Date.now() };
+          });
+        } else if (type === "LIKE_TOGGLE") {
+          setAppData((prev) => ({
+            ...prev,
+            likes: { ...prev.likes, [payload.postId]: payload.likes },
+            sharedUpdatedAt: Date.now()
+          }));
+        } else if (type === "NEW_COMMENT") {
+          setAppData((prev) => {
+            if (prev.comments.some((c) => c.id === payload.id)) return prev;
+            return {
+              ...prev,
+              comments: [...prev.comments, payload],
+              sharedUpdatedAt: Date.now()
+            };
+          });
+        } else if (type === "DELETE_POST") {
+          setAppData((prev) => ({
+            ...prev,
+            posts: prev.posts.filter((p) => p.id !== payload.postId),
+            sharedUpdatedAt: Date.now()
+          }));
+        } else if (type === "USER_SYNC") {
+          setAppData((prev) => {
+            const exists = prev.users.some((u) => u.id === payload.id);
+            return {
+              ...prev,
+              users: exists ? prev.users.map((u) => (u.id === payload.id ? payload : u)) : [...prev.users, payload]
+            };
+          });
+        } else if (type === "FOLLOWS_SYNC") {
+          setAppData((prev) => ({
+            ...prev,
+            follows: { ...prev.follows, [payload.userId]: payload.following }
+          }));
+        } else if (type === "SNAPSHOT_REQUEST") {
+          if (!currentUser) return;
+          dataLayer.publishLiveEvent("STATE_SNAPSHOT", buildSnapshotPayload(latestStateRef.current));
+        } else if (type === "STATE_SNAPSHOT") {
+          setAppData((prev) => {
+            const incomingPosts = Array.isArray(payload.posts) ? payload.posts : [];
+            const incomingUsers = Array.isArray(payload.users) ? payload.users : [];
+            const useIncoming =
+              (Number(payload.sharedUpdatedAt) || 0) > (Number(prev.sharedUpdatedAt) || 0) ||
+              incomingPosts.length > prev.posts.length;
+            if (!useIncoming) return prev;
+            skipSnapshotPublishRef.current = true;
+            return {
+              ...prev,
+              users: incomingUsers,
+              posts: incomingPosts,
+              comments: Array.isArray(payload.comments) ? payload.comments : [],
+              likes: payload.likes && typeof payload.likes === "object" ? payload.likes : {},
+              bookmarks: payload.bookmarks && typeof payload.bookmarks === "object" ? payload.bookmarks : {},
+              follows: payload.follows && typeof payload.follows === "object" ? payload.follows : {},
+              sharedUpdatedAt: Number(payload.sharedUpdatedAt) || Date.now()
+            };
+          });
+        }
+      }, [addToast, buildSnapshotPayload, currentUser]);
+
+      useEffect(() => {
+        if (!appData.settings.serverSync || !appData.sharedUpdatedAt) return;
+        if (skipSnapshotPublishRef.current) {
+          skipSnapshotPublishRef.current = false;
+          return;
+        }
+        dataLayer.publishLiveEvent("STATE_SNAPSHOT", buildSnapshotPayload(appData));
+      }, [appData.sharedUpdatedAt, appData.settings.serverSync, appData, buildSnapshotPayload]);
+
+      // 1. Listen on local tabs via BroadcastChannel
+      useEffect(() => {
+        if (!dataLayer.broadcastChannel) return;
+        const handleMessage = (e) => {
+          const { type, payload } = e.data || {};
+          processRemoteEvent(type, payload);
+        };
+        dataLayer.broadcastChannel.onmessage = handleMessage;
+        return () => {
+          if (dataLayer.broadcastChannel) dataLayer.broadcastChannel.onmessage = null;
+        };
+      }, [processRemoteEvent]);
+
+      // 2. Fetch history and connect live SSE stream to global cloud server
+      useEffect(() => {
+        if (!appData.settings.serverSync) {
+          setCloudStatus("cloudOff");
+          return;
+        }
+
+        const pullHistory = () => dataLayer.fetchLiveHistory((type, payload) => {
+          processRemoteEvent(type, payload);
+        });
+
+        // Pull existing posts history from server
+        pullHistory();
+        dataLayer.publishLiveEvent("SNAPSHOT_REQUEST", { ts: Date.now() });
+        const historyTimer = setInterval(pullHistory, 30000);
+
+        // Open live Server-Sent Events stream for instant cross-device updates
+        const disconnect = dataLayer.connectLiveServer(
+          (type, payload) => {
+            processRemoteEvent(type, payload);
+          },
+          (statusText) => {
+            setCloudStatus(statusText);
+          }
+        );
+
+        return () => {
+          clearInterval(historyTimer);
+          disconnect();
+        };
+      }, [appData.settings.serverSync, processRemoteEvent]);
+
+      // Actions: Post Creation
+      const handleCreatePost = (text, media = []) => {
+        if (!currentUser) {
+          setAuthModalOpen(true);
+          return;
+        }
+        const newPost = {
+          id: "post_" + Date.now() + "_" + Math.random().toString(36).slice(2, 7),
+          userId: currentUser.id,
+          username: currentUser.username,
+          displayName: currentUser.displayName,
+          userAvatar: currentUser.avatar,
+          userVerified: !!currentUser.verified,
+          text: text.trim(),
+          lang: (() => {
+            const detected = guessLanguage(text.trim());
+            return detected === "auto" ? (appData.settings.language || "fa") : detected;
+          })(),
+          media: media,
+          createdAt: Date.now(),
+          likesCount: 0,
+          commentsCount: 0
+        };
+
+        updateShared(prev => ({
+          ...prev,
+          posts: [newPost, ...prev.posts]
+        }));
+
+        dataLayer.publishLiveEvent("NEW_POST", newPost);
+        addToast("Your post has been published", "success");
+        setComposeModalOpen(false);
+      };
+
+      // Actions: Like
+      const handleToggleLike = (postId) => {
+        if (!currentUser) {
+          setAuthModalOpen(true);
+          return;
+        }
+        updateShared(prev => {
+          const currentLikes = prev.likes[postId] || [];
+          const hasLiked = currentLikes.includes(currentUser.id);
+          const nextLikes = hasLiked
+            ? currentLikes.filter(id => id !== currentUser.id)
+            : [...currentLikes, currentUser.id];
+
+          dataLayer.publishLiveEvent("LIKE_TOGGLE", { postId, likes: nextLikes });
+
+          return {
+            ...prev,
+            likes: { ...prev.likes, [postId]: nextLikes }
+          };
+        });
+      };
+
+      // Actions: Bookmark
+      const handleToggleBookmark = (postId) => {
+        if (!currentUser) {
+          setAuthModalOpen(true);
+          return;
+        }
+        updateShared(prev => {
+          const currentBookmarks = prev.bookmarks[currentUser.id] || [];
+          const hasBookmarked = currentBookmarks.includes(postId);
+          const nextBookmarks = hasBookmarked
+            ? currentBookmarks.filter(id => id !== postId)
+            : [...currentBookmarks, postId];
+
+          addToast(hasBookmarked ? "Removed from bookmarks" : "Added to bookmarks", "info");
+
+          return {
+            ...prev,
+            bookmarks: { ...prev.bookmarks, [currentUser.id]: nextBookmarks }
+          };
+        });
+      };
+
+      const handleToggleFollow = (targetUserId) => {
+        if (!currentUser || !targetUserId || currentUser.id === targetUserId) return;
+        updateShared((prev) => {
+          const currentFollowing = prev.follows?.[currentUser.id] || [];
+          const isFollowing = currentFollowing.includes(targetUserId);
+          const nextFollowing = isFollowing
+            ? currentFollowing.filter((id) => id !== targetUserId)
+            : [...currentFollowing, targetUserId];
+
+          dataLayer.publishLiveEvent("FOLLOWS_SYNC", { userId: currentUser.id, following: nextFollowing });
+          addToast(isFollowing ? "Unfollowed" : "Followed", "info");
+
+          return {
+            ...prev,
+            follows: { ...prev.follows, [currentUser.id]: nextFollowing }
+          };
+        });
+      };
+
+      // Actions: Delete Post
+      const handleDeletePost = (postId) => {
+        const targetPost = appData.posts.find(p => p.id === postId);
+        if (!targetPost) return;
+
+        updateShared(prev => ({
+          ...prev,
+          posts: prev.posts.filter(p => p.id !== postId)
+        }));
+
+        dataLayer.publishLiveEvent("DELETE_POST", { postId });
+
+        addToast("Post deleted", "warning", {
+          label: "Undo",
+          onClick: () => {
+            updateShared(prev => ({
+              ...prev,
+              posts: [targetPost, ...prev.posts]
+            }));
+            dataLayer.publishLiveEvent("NEW_POST", targetPost);
+            addToast("Post restored", "success");
+          }
+        });
+      };
+
+      // Actions: Add Comment
+      const handleAddComment = (postId, text) => {
+        if (!currentUser) {
+          setAuthModalOpen(true);
+          return;
+        }
+        const newComment = {
+          id: "c_" + Date.now(),
+          postId,
+          userId: currentUser.id,
+          username: currentUser.username,
+          displayName: currentUser.displayName,
+          userAvatar: currentUser.avatar,
+          text: text.trim(),
+          lang: (() => {
+            const detected = guessLanguage(text.trim());
+            return detected === "auto" ? (appData.settings.language || "fa") : detected;
+          })(),
+          createdAt: Date.now()
+        };
+
+        updateShared(prev => ({
+          ...prev,
+          comments: [...prev.comments, newComment]
+        }));
+
+        dataLayer.publishLiveEvent("NEW_COMMENT", newComment);
+        addToast("Comment posted", "success");
+      };
+
+      // Navigation Helper
+      const navigateTo = (route, targetUserId = null) => {
+        setCurrentRoute(route);
+        if (targetUserId) setProfileTargetUserId(targetUserId);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      };
+
+      return (
+        <div className="min-h-screen bg-black text-white flex justify-center selection:bg-blue-600">
+          <div className="w-full max-w-7xl flex flex-row">
+
+            {/* Left Desktop Sidebar Navigation */}
+            <aside className="hidden md:flex flex-col justify-between w-20 xl:w-64 h-screen sticky top-0 p-3 border-l border-zinc-800/60 z-30 bg-black/80 backdrop-blur-xl">
+              <div className="space-y-4">
+                {/* Brand Logo */}
+                <div onClick={() => navigateTo("home")} className="flex items-center gap-3 p-2 cursor-pointer hover:opacity-90 transition rounded-2xl group">
+                  <div className="p-2 rounded-2xl bg-gradient-to-br from-blue-600/30 to-black border border-blue-500/40 inter-glow">
+                    <Icons.Logo />
+                  </div>
+                  <div className="hidden xl:block">
+                    <span className="text-xl font-black tracking-tight inter-gradient-text">Inter X</span>
+                    <span className="block text-[11px] text-zinc-400 font-medium">Inter X Community</span>
+                  </div>
+                </div>
+
+                {/* Nav Items */}
+                <nav className="space-y-1.5 pt-2">
+                  <NavItem icon={<Icons.Home active={currentRoute === "home"} />} label={t("home")} active={currentRoute === "home"} onClick={() => navigateTo("home")} />
+                  <NavItem icon={<Icons.Search active={currentRoute === "search"} />} label={t("search")} active={currentRoute === "search"} onClick={() => navigateTo("search")} />
+                  <NavItem icon={<Icons.Bookmark active={currentRoute === "bookmarks"} />} label={t("bookmarks")} active={currentRoute === "bookmarks"} onClick={() => navigateTo("bookmarks")} />
+                  <NavItem icon={<Icons.Profile active={currentRoute === "profile" && (!profileTargetUserId || profileTargetUserId === currentUser?.id)} />} label={t("profile")} active={currentRoute === "profile"} onClick={() => navigateTo("profile", currentUser?.id)} />
+                  <NavItem icon={<Icons.Settings active={currentRoute === "settings"} />} label={t("settings")} active={currentRoute === "settings"} onClick={() => navigateTo("settings")} />
+                </nav>
+
+                {/* Primary Compose Button */}
+                <button
+                  onClick={() => {
+                    if (!currentUser) setAuthModalOpen(true);
+                    else setComposeModalOpen(true);
+                  }}
+                  className="w-full py-3.5 px-4 rounded-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white font-bold shadow-lg shadow-blue-900/40 hover:shadow-blue-600/50 transition-all transform active:scale-95 flex items-center justify-center gap-2"
+                >
+                  <span className="text-lg hidden xl:inline">{t("newPost")}</span>
+                  <span className="xl:hidden text-xl font-black">+</span>
+                </button>
+              </div>
+
+              {/* User Bar / Login Button */}
+              <div className="pt-4 border-t border-zinc-800/60">
+                {currentUser ? (
+                  <div className="flex items-center justify-between p-2 rounded-2xl hover:bg-zinc-900/80 transition cursor-pointer group" onClick={() => navigateTo("profile", currentUser.id)}>
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full ring-2 ring-blue-500/40 overflow-hidden bg-zinc-800 flex items-center justify-center font-bold text-blue-400">
+                        {currentUser.avatar ? <img src={currentUser.avatar} className="w-full h-full object-cover" /> : currentUser.displayName[0]}
+                      </div>
+                      <div className="hidden xl:block text-right">
+                        <div className="text-sm font-bold text-white flex items-center gap-1">
+                          {currentUser.displayName}
+                          {currentUser.verified && <Icons.Verified />}
+                        </div>
+                        <div className="text-xs text-zinc-400">@{currentUser.username}</div>
+                      </div>
+                    </div>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setAppData(prev => ({ ...prev, sessionUserId: null }));
+                        addToast(t("logout"), "info");
+                      }}
+                      title={t("logout")}
+                      className="hidden xl:block p-1.5 rounded-lg text-zinc-400 hover:text-rose-400 hover:bg-rose-950/30 transition"
+                    >
+                      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" /></svg>
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => setAuthModalOpen(true)}
+                    className="w-full py-3 px-3 rounded-2xl bg-zinc-900 hover:bg-zinc-800 border border-blue-500/30 text-blue-400 font-bold text-sm transition flex items-center justify-center gap-2"
+                  >
+                    <span className="hidden xl:inline">{t("login")}</span>
+                    <span className="xl:hidden">{t("login")}</span>
+                  </button>
+                )}
+              </div>
+            </aside>
+
+            {/* Center Main Content Feed */}
+            <main className="flex-1 min-h-screen border-l border-r border-zinc-800/60 pb-24 md:pb-8 max-w-2xl w-full">
+              
+              {/* Sticky Top Header */}
+              <header className="sticky top-0 z-20 glass border-b border-zinc-800/60 px-4 py-3 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="md:hidden">
+                    <Icons.Logo />
+                  </div>
+                  <div>
+                    <h1 className="text-base md:text-lg font-black tracking-tight flex items-center gap-2 text-white">
+                      {currentRoute === "home" && t("home")}
+                      {currentRoute === "search" && t("search")}
+                      {currentRoute === "bookmarks" && t("bookmarks")}
+                      {currentRoute === "profile" && t("profile")}
+                      {currentRoute === "settings" && t("settings")}
+                    </h1>
+                    <div className="flex items-center gap-2 text-[11px] text-zinc-400">
+                      <span className="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+                      <span>{t(cloudStatus)}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => {
+                      addToast(t("refresh"), "success");
+                    }}
+                    title={t("refresh")}
+                    className="p-2 rounded-full hover:bg-zinc-800/60 text-zinc-300 transition active:rotate-180 duration-300"
+                  >
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+                  </button>
+                  {!currentUser && (
+                    <button
+                      onClick={() => setAuthModalOpen(true)}
+                      className="px-3.5 py-1.5 rounded-full bg-blue-600 hover:bg-blue-500 text-xs font-bold text-white transition"
+                    >
+                      {t("login")}
+                    </button>
+                  )}
+                </div>
+              </header>
+
+              {/* Main Routing Views */}
+              {currentRoute === "home" && (
+                <div>
+                  {/* Tabs: For You / Following */}
+                  <div className="flex border-b border-zinc-800/60 text-sm font-bold text-center">
+                    <button
+                      onClick={() => setActiveTab("forYou")}
+                      className={`flex-1 py-3.5 transition relative ${activeTab === "forYou" ? 'text-white' : 'text-zinc-500 hover:text-zinc-300'}`}
+                    >
+                      {t("forYou")}
+                      {activeTab === "forYou" && <div className="absolute bottom-0 left-1/4 right-1/4 h-1 bg-blue-500 rounded-full" />}
+                    </button>
+                    <button
+                      onClick={() => setActiveTab("following")}
+                      className={`flex-1 py-3.5 transition relative ${activeTab === "following" ? 'text-white' : 'text-zinc-500 hover:text-zinc-300'}`}
+                    >
+                      {t("following")}
+                      {activeTab === "following" && <div className="absolute bottom-0 left-1/4 right-1/4 h-1 bg-blue-500 rounded-full" />}
+                    </button>
+                  </div>
+
+                  {/* Inline Composer on Desktop */}
+                  <div className="p-4 border-b border-zinc-800/60 hidden sm:block bg-zinc-950/40">
+                    <ComposerBox currentUser={currentUser} onPublish={handleCreatePost} onRequireAuth={() => setAuthModalOpen(true)} uiLang={uiLang} />
+                  </div>
+
+                  {/* Feed List */}
+                  <div className="divide-y divide-zinc-800/50">
+                    {homePosts.length === 0 ? (
+                      <div className="py-16 px-6 text-center">
+                        <div className="w-16 h-16 mx-auto mb-4 rounded-3xl bg-blue-950/40 border border-blue-800/40 flex items-center justify-center text-blue-400">
+                          <Icons.Logo />
+                        </div>
+                        <h3 className="text-lg font-bold text-white mb-2">{activeTab === "following" ? t("emptyFollowing") : t("emptyFeed")}</h3>
+                        <p className="text-sm text-zinc-400 max-w-md mx-auto mb-6">
+                          {activeTab === "following" ? "Follow users to see posts in Following tab." : "Be the first fan to publish a post."}
+                        </p>
+                        <button
+                          onClick={() => {
+                            if (!currentUser) setAuthModalOpen(true);
+                            else setComposeModalOpen(true);
+                          }}
+                          className="px-6 py-2.5 rounded-full bg-blue-600 hover:bg-blue-500 font-bold text-sm text-white shadow-lg shadow-blue-900/50 transition"
+                        >
+                          نوشتن اولین پست نراتزوری ✍️
+                        </button>
+                      </div>
+                    ) : (
+                      homePosts.map(post => (
+                        <PostCard
+                          key={post.id}
+                          post={post}
+                          currentUser={currentUser}
+                          isLiked={(appData.likes[post.id] || []).includes(currentUser?.id)}
+                          likesCount={(appData.likes[post.id] || []).length}
+                          isBookmarked={(appData.bookmarks[currentUser?.id] || []).includes(post.id)}
+                          commentsCount={appData.comments.filter(c => c.postId === post.id).length}
+                          onToggleLike={() => handleToggleLike(post.id)}
+                          onToggleBookmark={() => handleToggleBookmark(post.id)}
+                          onOpenComment={() => setActiveCommentPostId(post.id)}
+                          onDelete={() => handleDeletePost(post.id)}
+                          onOpenMedia={(media) => setLightboxMedia(media)}
+                          onUserClick={(uid) => navigateTo("profile", uid)}
+                          preferredLanguage={appData.settings.language || "fa"}
+                          ensureTranslation={ensureTranslation}
+                          translationCache={translationCache}
+                          translationLoading={translationLoading}
+                          showOriginal={!!showOriginalMap[`post:${post.id}`]}
+                          onToggleOriginal={() => toggleOriginal("post", post.id)}
+                          isFollowingUser={isFollowingUser(post.userId)}
+                          onToggleFollowUser={() => handleToggleFollow(post.userId)}
+                          uiLang={uiLang}
+                        />
+                      ))
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Search View */}
+              {currentRoute === "search" && (
+                <div className="p-4 space-y-4">
+                  <div className="relative">
+                    <input
+                      type="text"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      placeholder={t("search")}
+                      className="w-full bg-zinc-900/90 border border-zinc-800 focus:border-blue-500 rounded-2xl py-3 px-11 text-sm text-white outline-none transition"
+                    />
+                    <span className="absolute right-4 top-3.5 text-zinc-500">
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                    </span>
+                  </div>
+
+                  <div className="divide-y divide-zinc-800/50 pt-2">
+                    {sortedPosts
+                      .filter(p => {
+                        if (!searchQuery.trim()) return true;
+                        const q = searchQuery.toLowerCase();
+                        return (
+                          p.text.toLowerCase().includes(q) ||
+                          p.username.toLowerCase().includes(q) ||
+                          p.displayName.toLowerCase().includes(q)
+                        );
+                      })
+                      .map(post => (
+                        <PostCard
+                          key={post.id}
+                          post={post}
+                          currentUser={currentUser}
+                          isLiked={(appData.likes[post.id] || []).includes(currentUser?.id)}
+                          likesCount={(appData.likes[post.id] || []).length}
+                          isBookmarked={(appData.bookmarks[currentUser?.id] || []).includes(post.id)}
+                          commentsCount={appData.comments.filter(c => c.postId === post.id).length}
+                          onToggleLike={() => handleToggleLike(post.id)}
+                          onToggleBookmark={() => handleToggleBookmark(post.id)}
+                          onOpenComment={() => setActiveCommentPostId(post.id)}
+                          onDelete={() => handleDeletePost(post.id)}
+                          onOpenMedia={(media) => setLightboxMedia(media)}
+                          onUserClick={(uid) => navigateTo("profile", uid)}
+                          preferredLanguage={appData.settings.language || "fa"}
+                          ensureTranslation={ensureTranslation}
+                          translationCache={translationCache}
+                          translationLoading={translationLoading}
+                          showOriginal={!!showOriginalMap[`post:${post.id}`]}
+                          onToggleOriginal={() => toggleOriginal("post", post.id)}
+                          isFollowingUser={isFollowingUser(post.userId)}
+                          onToggleFollowUser={() => handleToggleFollow(post.userId)}
+                          uiLang={uiLang}
+                        />
+                      ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Bookmarks View */}
+              {currentRoute === "bookmarks" && (
+                <div className="divide-y divide-zinc-800/50">
+                  {(!currentUser || !(appData.bookmarks[currentUser.id] || []).length) ? (
+                    <div className="py-20 text-center px-4">
+                      <div className="w-12 h-12 rounded-full bg-zinc-900 mx-auto flex items-center justify-center text-zinc-500 mb-3">
+                        <Icons.Bookmark filled={false} />
+                      </div>
+                      <p className="text-sm text-zinc-400">هیچ پستی را نشان نکرده‌اید.</p>
+                    </div>
+                  ) : (
+                    sortedPosts
+                      .filter(p => (appData.bookmarks[currentUser.id] || []).includes(p.id))
+                      .map(post => (
+                        <PostCard
+                          key={post.id}
+                          post={post}
+                          currentUser={currentUser}
+                          isLiked={(appData.likes[post.id] || []).includes(currentUser?.id)}
+                          likesCount={(appData.likes[post.id] || []).length}
+                          isBookmarked={true}
+                          commentsCount={appData.comments.filter(c => c.postId === post.id).length}
+                          onToggleLike={() => handleToggleLike(post.id)}
+                          onToggleBookmark={() => handleToggleBookmark(post.id)}
+                          onOpenComment={() => setActiveCommentPostId(post.id)}
+                          onDelete={() => handleDeletePost(post.id)}
+                          onOpenMedia={(media) => setLightboxMedia(media)}
+                          onUserClick={(uid) => navigateTo("profile", uid)}
+                          preferredLanguage={appData.settings.language || "fa"}
+                          ensureTranslation={ensureTranslation}
+                          translationCache={translationCache}
+                          translationLoading={translationLoading}
+                          showOriginal={!!showOriginalMap[`post:${post.id}`]}
+                          onToggleOriginal={() => toggleOriginal("post", post.id)}
+                          isFollowingUser={isFollowingUser(post.userId)}
+                          onToggleFollowUser={() => handleToggleFollow(post.userId)}
+                          uiLang={uiLang}
+                        />
+                      ))
+                  )}
+                </div>
+              )}
+
+              {/* Profile View */}
+              {currentRoute === "profile" && (
+                <ProfileView
+                  userId={profileTargetUserId || currentUser?.id}
+                  currentUser={currentUser}
+                  users={appData.users}
+                  posts={appData.posts}
+                  likes={appData.likes}
+                  comments={appData.comments}
+                  bookmarks={appData.bookmarks}
+                  follows={appData.follows}
+                  onUpdateProfile={(updated) => {
+                    updateShared(prev => ({
+                      ...prev,
+                      users: prev.users.map(u => u.id === updated.id ? updated : u)
+                    }));
+                    dataLayer.publishLiveEvent("USER_SYNC", updated);
+                    addToast("Profile updated", "success");
+                  }}
+                  onToggleLike={handleToggleLike}
+                  onToggleBookmark={handleToggleBookmark}
+                  onToggleFollow={handleToggleFollow}
+                  onOpenComment={(pid) => setActiveCommentPostId(pid)}
+                  onDelete={handleDeletePost}
+                  onOpenMedia={(m) => setLightboxMedia(m)}
+                  onUserClick={(uid) => navigateTo("profile", uid)}
+                  preferredLanguage={appData.settings.language || "fa"}
+                  ensureTranslation={ensureTranslation}
+                  translationCache={translationCache}
+                  translationLoading={translationLoading}
+                  showOriginalMap={showOriginalMap}
+                  onToggleOriginal={toggleOriginal}
+                  uiLang={uiLang}
+                />
+              )}
+
+              {/* Settings View */}
+              {currentRoute === "settings" && (
+                <div className="p-5 space-y-6">
+                  <div className="p-4 rounded-3xl bg-zinc-900/80 border border-zinc-800 space-y-4">
+                    <h3 className="text-base font-bold text-white flex items-center gap-2">
+                      <Icons.Settings active={true} />
+                      {t("settings")}
+                    </h3>
+                    
+                    <div className="space-y-3 text-sm">
+                      <div className="flex items-center justify-between p-3 rounded-2xl bg-black/50 border border-zinc-800">
+                        <span>Theme</span>
+                        <select
+                          value={appData.settings.theme}
+                          onChange={(e) => setAppData(prev => ({ ...prev, settings: { ...prev.settings, theme: e.target.value } }))}
+                          className="bg-zinc-800 text-white rounded-lg px-3 py-1.5 border border-zinc-700 outline-none"
+                        >
+                          <option value="dark">Dark</option>
+                          <option value="light">Light</option>
+                        </select>
+                      </div>
+
+                      <div className="flex items-center justify-between p-3 rounded-2xl bg-black/50 border border-zinc-800">
+                        <span>Language</span>
+                        <select
+                          value={appData.settings.language || "fa"}
+                          onChange={(e) => setAppData(prev => ({ ...prev, settings: { ...prev.settings, language: e.target.value } }))}
+                          className="bg-zinc-800 text-white rounded-lg px-3 py-1.5 border border-zinc-700 outline-none"
+                        >
+                          {SUPPORTED_LANGUAGES.map((lang) => (
+                            <option key={lang.code} value={lang.code}>{lang.label}</option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div className="flex items-center justify-between p-3 rounded-2xl bg-black/50 border border-zinc-800">
+                        <div>
+                          <div className="font-semibold">Live cloud sync across devices</div>
+                          <div className="text-xs text-zinc-400">Posts, likes and comments are synced instantly across devices.</div>
+                        </div>
+                        <input
+                          type="checkbox"
+                          checked={appData.settings.serverSync}
+                          onChange={(e) => setAppData(prev => ({ ...prev, settings: { ...prev.settings, serverSync: e.target.checked } }))}
+                          className="w-5 h-5 accent-blue-600 rounded"
+                        />
+                      </div>
+
+                      <div className="p-3 rounded-2xl bg-black/50 border border-zinc-800 space-y-2">
+                        <div className="text-xs text-zinc-400">Connection status:</div>
+                        <input
+                          type="text" readOnly value={t(cloudStatus)}
+                          className="w-full bg-zinc-900 border border-zinc-700 rounded-xl p-2 text-xs text-emerald-400 font-bold font-mono"
+                        />
+                        <p className="text-[11px] text-zinc-500">Realtime bi-directional event stream over HTTPS & SSE.</p>
+                      </div>
+
+                      <div className="pt-2">
+                        <button
+                          onClick={() => {
+                            if (confirm("Reset local cache data?")) {
+                              localStorage.removeItem(STORAGE_KEY);
+                              location.reload();
+                            }
+                          }}
+                          className="w-full py-2.5 rounded-xl border border-rose-500/40 text-rose-400 hover:bg-rose-950/40 font-bold text-xs transition"
+                        >
+                          Reset Local Cache
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </main>
+
+            {/* Right Desktop Widget Sidebar */}
+            <aside className="hidden lg:block w-80 h-screen sticky top-0 p-4 space-y-4 border-r border-zinc-800/60 overflow-y-auto">
+              
+              {/* Quick Search Widget */}
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Search Inter X..."
+                  onClick={() => navigateTo("search")}
+                  className="w-full bg-zinc-900/90 border border-zinc-800 rounded-full py-2.5 px-10 text-xs text-white placeholder-zinc-500 outline-none focus:border-blue-500 transition cursor-pointer"
+                />
+                <span className="absolute right-3.5 top-2.5 text-zinc-500">
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                </span>
+              </div>
+
+            </aside>
+
+          </div>
+
+          {/* Bottom Navigation for Mobile */}
+          <nav className="md:hidden fixed bottom-0 left-0 right-0 h-16 glass border-t border-zinc-800/80 flex items-center justify-between z-30 px-3">
+            <button onClick={() => navigateTo("home")} className="p-2 text-center flex flex-col items-center">
+              <Icons.Home active={currentRoute === "home"} />
+            </button>
+            <button onClick={() => navigateTo("search")} className="p-2 text-center flex flex-col items-center">
+              <Icons.Search active={currentRoute === "search"} />
+            </button>
+            <button
+              onClick={() => {
+                if (!currentUser) setAuthModalOpen(true);
+                else setComposeModalOpen(true);
+              }}
+              className="p-3 bg-gradient-to-tr from-blue-600 to-blue-500 rounded-full text-white shadow-lg shadow-blue-900/60 -mt-5"
+            >
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+            </button>
+            <button onClick={() => navigateTo("bookmarks")} className="p-2 text-center flex flex-col items-center">
+              <Icons.Bookmark active={currentRoute === "bookmarks"} />
+            </button>
+            <button onClick={() => navigateTo("settings")} className="p-2 text-center flex flex-col items-center">
+              <Icons.Settings active={currentRoute === "settings"} />
+            </button>
+            <button onClick={() => navigateTo("profile", currentUser?.id)} className="p-2 text-center flex flex-col items-center">
+              <Icons.Profile active={currentRoute === "profile"} />
+            </button>
+          </nav>
+
+          {/* Compose Modal */}
+          {composeModalOpen && (
+            <Modal title={t("newPost")} onClose={() => setComposeModalOpen(false)}>
+              <ComposerBox
+                currentUser={currentUser}
+                onPublish={(t, m) => { handleCreatePost(t, m); }}
+                onRequireAuth={() => setAuthModalOpen(true)}
+                uiLang={uiLang}
+              />
+            </Modal>
+          )}
+
+          {/* Comments Modal */}
+          {activeCommentPostId && (
+            <CommentModal
+              postId={activeCommentPostId}
+              post={appData.posts.find(p => p.id === activeCommentPostId)}
+              comments={appData.comments.filter(c => c.postId === activeCommentPostId)}
+              currentUser={currentUser}
+              onAddComment={(text) => handleAddComment(activeCommentPostId, text)}
+              onClose={() => setActiveCommentPostId(null)}
+              onRequireAuth={() => setAuthModalOpen(true)}
+              preferredLanguage={appData.settings.language || "fa"}
+              ensureTranslation={ensureTranslation}
+              translationCache={translationCache}
+              translationLoading={translationLoading}
+              showOriginalMap={showOriginalMap}
+              onToggleOriginal={toggleOriginal}
+              uiLang={uiLang}
+            />
+          )}
+
+          {/* Secure Auth Modal */}
+          {authModalOpen && (
+            <AuthModal
+              users={appData.users}
+              onClose={() => setAuthModalOpen(false)}
+              onSuccess={(user) => {
+                updateShared(prev => {
+                  const exists = prev.users.some(u => u.id === user.id);
+                  const nextUsers = exists ? prev.users.map(u => u.id === user.id ? user : u) : [user, ...prev.users];
+                  return { ...prev, users: nextUsers, sessionUserId: user.id };
+                });
+                dataLayer.publishLiveEvent("USER_SYNC", user);
+                setAuthModalOpen(false);
+                addToast(`خوش آمدید ${user.displayName} 💙🖤`, "success");
+              }}
+            />
+          )}
+
+          {/* Lightbox Modal */}
+          {lightboxMedia && (
+            <div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4" onClick={() => setLightboxMedia(null)}>
+              <button className="absolute top-5 right-5 text-white bg-zinc-800/80 p-2.5 rounded-full hover:bg-zinc-700">✕</button>
+              {lightboxMedia.type === "video" ? (
+                <video src={lightboxMedia.url} controls autoPlay className="max-w-full max-h-[85vh] rounded-2xl shadow-2xl" onClick={e => e.stopPropagation()} />
+              ) : (
+                <img src={lightboxMedia.url} className="max-w-full max-h-[85vh] object-contain rounded-2xl shadow-2xl" onClick={e => e.stopPropagation()} />
+              )}
+            </div>
+          )}
+
+          {/* Global Toast Container */}
+          <div className="fixed bottom-20 md:bottom-6 left-6 z-50 space-y-2 max-w-sm w-full pointer-events-none">
+            {toasts.map(t => (
+              <div
+                key={t.id}
+                className={`p-3.5 rounded-2xl border backdrop-blur-xl pointer-events-auto shadow-2xl flex items-center justify-between text-xs font-semibold animate-slide-down ${
+                  t.type === 'success' ? 'bg-emerald-950/90 border-emerald-500/40 text-emerald-200' :
+                  t.type === 'warning' ? 'bg-amber-950/90 border-amber-500/40 text-amber-200' :
+                  t.type === 'error' ? 'bg-rose-950/90 border-rose-500/40 text-rose-200' :
+                  'bg-zinc-900/90 border-blue-500/40 text-white'
+                }`}
+              >
+                <span>{t.message}</span>
+                {t.action && (
+                  <button
+                    onClick={t.action.onClick}
+                    className="mr-3 px-2.5 py-1 rounded-lg bg-white/20 hover:bg-white/30 text-white font-bold transition"
+                  >
+                    {t.action.label}
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+
+        </div>
+      );
+    }
+
+    // ==========================================
+    // 7. NAVIGATION ITEM COMPONENT
+    // ==========================================
+    function NavItem({ icon, label, active, onClick, badge }) {
+      return (
+        <button
+          onClick={onClick}
+          className={`w-full flex items-center gap-4 p-3 rounded-full transition-all group ${
+            active ? 'font-black text-white bg-blue-600/10 border border-blue-500/30' : 'text-zinc-400 hover:text-white hover:bg-zinc-900/60 font-medium'
+          }`}
+        >
+          <div className="relative">
+            {icon}
+            {badge && <span className="absolute -top-1 -right-1 px-1 text-[9px] font-bold bg-rose-600 text-white rounded-full">{badge}</span>}
+          </div>
+          <span className="hidden xl:inline text-base tracking-tight">{label}</span>
+        </button>
+      );
+    }
+
+    // ==========================================
+    // 8. COMPOSER BOX (Optimized Media & Drafts)
+    // ==========================================
+    function ComposerBox({ currentUser, onPublish, onRequireAuth, uiLang }) {
+      const tt = (key) => UI_TEXT[uiLang]?.[key] || UI_TEXT.en[key] || key;
+      const [text, setText] = useState("");
+      const [mediaList, setMediaList] = useState([]);
+      const [emojiPickerOpen, setEmojiPickerOpen] = useState(false);
+      const [isDragging, setIsDragging] = useState(false);
+      const fileInputRef = useRef(null);
+
+      const interEmojis = ["💙", "🖤", "⚽", "🏆", "🔥", "🐂", "🐍", "⭐", "🇮🇹", "👏", "👑", "💪"];
+
+      const handleFiles = (files) => {
+        Array.from(files).forEach(file => {
+          if (file.size > 15 * 1024 * 1024) {
+            alert("File size must be less than 15MB.");
+            return;
+          }
+          const isVideo = file.type.startsWith("video/");
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            setMediaList(prev => [...prev, {
+              id: "m_" + Date.now() + Math.random(),
+              type: isVideo ? "video" : "image",
+              url: e.target.result
+            }]);
+          };
+          reader.readAsDataURL(file);
+        });
+      };
+
+      const handleSubmit = () => {
+        if (!currentUser) {
+          onRequireAuth();
+          return;
+        }
+        if (!text.trim() && mediaList.length === 0) return;
+        onPublish(text, mediaList);
+        setText("");
+        setMediaList([]);
+      };
+
+      return (
+        <div
+          onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+          onDragLeave={() => setIsDragging(false)}
+          onDrop={(e) => { e.preventDefault(); setIsDragging(false); handleFiles(e.dataTransfer.files); }}
+          className={`p-2 transition rounded-2xl ${isDragging ? 'ring-2 ring-blue-500 bg-blue-950/20' : ''}`}
+        >
+          <div className="flex gap-3">
+            <div className="w-10 h-10 rounded-full overflow-hidden bg-blue-900/40 border border-blue-500/40 flex items-center justify-center font-bold text-blue-400 shrink-0">
+              {currentUser?.avatar ? <img src={currentUser.avatar} className="w-full h-full object-cover" /> : (currentUser?.displayName?.[0] || "I")}
+            </div>
+            
+            <div className="flex-1 space-y-3">
+              <textarea
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                maxLength={MAX_POST_CHARS}
+                placeholder={tt("composePlaceholder")}
+                rows="3"
+                className="w-full bg-transparent text-sm md:text-base text-white placeholder-zinc-500 border-none outline-none resize-none"
+              />
+
+              {/* Media Previews */}
+              {mediaList.length > 0 && (
+                <div className="grid grid-cols-2 gap-2 pt-2">
+                  {mediaList.map((m, i) => (
+                    <div key={m.id} className="relative rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-900 group aspect-video">
+                      {m.type === "video" ? (
+                        <video src={m.url} className="w-full h-full object-cover" />
+                      ) : (
+                        <img src={m.url} className="w-full h-full object-cover" />
+                      )}
+                      <button
+                        onClick={() => setMediaList(prev => prev.filter((_, idx) => idx !== i))}
+                        className="absolute top-2 right-2 p-1.5 rounded-full bg-black/70 text-white hover:bg-rose-600 transition"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Emojis drawer */}
+              {emojiPickerOpen && (
+                <div className="p-2 rounded-2xl bg-zinc-900 border border-zinc-800 flex flex-wrap gap-2 animate-slide-down">
+                  {interEmojis.map(e => (
+                    <button
+                      key={e}
+                      onClick={() => setText(prev => prev + " " + e)}
+                      className="text-lg hover:scale-125 transition p-1"
+                    >
+                      {e}
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {/* Action Bar */}
+              <div className="flex items-center justify-between pt-2 border-t border-zinc-800/40">
+                <div className="flex items-center gap-2">
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={(e) => handleFiles(e.target.files)}
+                    multiple
+                    accept="image/*,video/*"
+                    className="hidden"
+                  />
+                  <button
+                    onClick={() => fileInputRef.current?.click()}
+                    title="Add image or video"
+                    className="p-2 rounded-full text-blue-400 hover:bg-blue-950/40 transition"
+                  >
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                  </button>
+                  <button
+                    onClick={() => setEmojiPickerOpen(prev => !prev)}
+                    title="Emoji"
+                    className="p-2 rounded-full text-blue-400 hover:bg-blue-950/40 transition text-sm"
+                  >
+                    😊
+                  </button>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <span className={`text-xs ${text.length > MAX_POST_CHARS - 100 ? 'text-rose-500 font-bold' : 'text-zinc-500'}`}>
+                    {text.length}/{MAX_POST_CHARS}
+                  </span>
+                  <button
+                    onClick={handleSubmit}
+                    disabled={!text.trim() && mediaList.length === 0}
+                    className="px-5 py-2 rounded-full bg-blue-600 hover:bg-blue-500 disabled:opacity-40 disabled:cursor-not-allowed font-bold text-xs text-white shadow-md shadow-blue-900/30 transition transform active:scale-95"
+                  >
+                    {tt("publish")}
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // ==========================================
+    // 9. POST CARD COMPONENT
+    // ==========================================
+    function PostCard({ post, currentUser, isLiked, likesCount, isBookmarked, commentsCount, onToggleLike, onToggleBookmark, onOpenComment, onDelete, onOpenMedia, onUserClick, preferredLanguage, ensureTranslation, translationCache, translationLoading, showOriginal, onToggleOriginal, uiLang, isFollowingUser, onToggleFollowUser }) {
+      const [menuOpen, setMenuOpen] = useState(false);
+      const isOwner = currentUser?.id === post.userId;
+      const tt = (key) => UI_TEXT[uiLang]?.[key] || UI_TEXT.en[key] || key;
+
+      // Time Formatter
+      const timeAgo = useMemo(() => {
+        const diffSec = Math.floor((Date.now() - post.createdAt) / 1000);
+        const rtf = new Intl.RelativeTimeFormat(uiLang, { numeric: "auto" });
+        if (diffSec < 60) return rtf.format(-diffSec, "second");
+        if (diffSec < 3600) return rtf.format(-Math.floor(diffSec / 60), "minute");
+        if (diffSec < 86400) return rtf.format(-Math.floor(diffSec / 3600), "hour");
+        return rtf.format(-Math.floor(diffSec / 86400), "day");
+      }, [post.createdAt, uiLang]);
+
+      const detectedPostLang = guessLanguage(post.text || "");
+      const sourceLang = detectedPostLang === "auto" ? (post.lang || "auto") : detectedPostLang;
+      const shouldTranslate = !!preferredLanguage && !!post.text?.trim() && preferredLanguage !== sourceLang;
+      const postTranslationKey = `post:${post.id}:${preferredLanguage}`;
+      const translatedText = translationCache[postTranslationKey];
+      const loadingTranslation = !!translationLoading[postTranslationKey];
+
+      useEffect(() => {
+        if (shouldTranslate && showOriginal) {
+          ensureTranslation("post", post.id, post.text, sourceLang);
+        }
+      }, [shouldTranslate, showOriginal, ensureTranslation, post.id, post.text, sourceLang]);
+
+      const displayText = showOriginal && shouldTranslate && translatedText ? translatedText : post.text;
+
+      // Highlight Hashtags & Mentions
+      const formattedText = useMemo(() => {
+        const parts = displayText.split(/(#[a-zA-Z0-9_\u0600-\u06FF]+|@[a-zA-Z0-9_]+)/g);
+        return parts.map((part, i) => {
+          if (part.startsWith("#")) {
+            return <span key={i} className="text-blue-400 font-semibold hover:underline cursor-pointer">{part}</span>;
+          }
+          if (part.startsWith("@")) {
+            return <span key={i} className="text-blue-400 font-semibold hover:underline cursor-pointer">{part}</span>;
+          }
+          return part;
+        });
+      }, [displayText]);
+
+      return (
+        <article className="p-4 hover:bg-zinc-950/40 transition duration-150 relative">
+          <div className="flex gap-3">
+            {/* User Avatar */}
+            <div
+              onClick={() => onUserClick(post.userId)}
+              className="w-10 h-10 rounded-full overflow-hidden bg-blue-900/30 border border-blue-500/30 flex items-center justify-center font-bold text-blue-400 shrink-0 cursor-pointer hover:opacity-80 transition"
+            >
+              {post.userAvatar ? <img src={post.userAvatar} className="w-full h-full object-cover" /> : post.displayName[0]}
+            </div>
+
+            {/* Post Content */}
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  <span onClick={() => onUserClick(post.userId)} className="font-bold text-sm text-white hover:underline cursor-pointer">
+                    {post.displayName}
+                  </span>
+                  {post.userVerified && <Icons.Verified />}
+                  <span className="text-xs text-zinc-500">@{post.username}</span>
+                  <span className="text-zinc-600">·</span>
+                  <span className="text-xs text-zinc-500">{timeAgo}</span>
+                  {currentUser && currentUser.id !== post.userId && (
+                    <button onClick={onToggleFollowUser} className="text-[11px] text-blue-400 hover:underline">
+                      {isFollowingUser ? tt("unfollow") : tt("follow")}
+                    </button>
+                  )}
+                </div>
+
+                {/* More options menu */}
+                <div className="relative">
+                  <button
+                    onClick={() => setMenuOpen(!menuOpen)}
+                    className="text-zinc-500 hover:text-white p-1 rounded-full hover:bg-zinc-800 transition"
+                  >
+                    ⋯
+                  </button>
+                  {menuOpen && (
+                    <div className="absolute left-0 top-6 z-20 w-36 bg-zinc-900 border border-zinc-800 rounded-2xl shadow-2xl p-1 text-xs space-y-0.5 animate-slide-down">
+                      <button
+                        onClick={() => {
+                          navigator.clipboard.writeText(window.location.href);
+                          setMenuOpen(false);
+                        }}
+                        className="w-full text-right p-2 rounded-xl hover:bg-zinc-800 text-zinc-300"
+                      >
+                        کپی لینک پست
+                      </button>
+                      {isOwner && (
+                        <button
+                          onClick={() => { onDelete(); setMenuOpen(false); }}
+                          className="w-full text-right p-2 rounded-xl hover:bg-rose-950/50 text-rose-400 font-bold"
+                        >
+                          حذف پست
+                        </button>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Text */}
+              <div data-user-content className="text-sm md:text-base text-zinc-100 mt-2 leading-relaxed whitespace-pre-wrap break-words">
+                {formattedText}
+              </div>
+              {shouldTranslate && (
+                <div className="mt-1.5 flex items-center gap-2 text-[11px]">
+                  {showOriginal && translatedText && <span className="text-emerald-400">{tt("translated")}</span>}
+                  {showOriginal && loadingTranslation && <span className="text-zinc-500">{tt("translateLoading")}</span>}
+                  <button onClick={onToggleOriginal} className="text-blue-400 hover:underline">
+                    {showOriginal ? tt("showOriginal") : tt("translate")}
+                  </button>
+                </div>
+              )}
+
+              {/* Media Attachments */}
+              {post.media && post.media.length > 0 && (
+                <div className={`mt-3 rounded-2xl overflow-hidden border border-zinc-800/80 grid ${post.media.length > 1 ? 'grid-cols-2' : 'grid-cols-1'} gap-1 bg-black`}>
+                  {post.media.map((m, idx) => (
+                    <div key={idx} onClick={() => onOpenMedia(m)} className="cursor-zoom-in relative aspect-video bg-zinc-900 group overflow-hidden">
+                      {m.type === "video" ? (
+                        <video src={m.url} className="w-full h-full object-cover" />
+                      ) : (
+                        <img src={m.url} className="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Action Buttons: Like, Comment, Bookmark, Share */}
+              <div className="flex items-center justify-between mt-4 text-xs text-zinc-400 max-w-md">
+                {/* Like Button */}
+                <button
+                  onClick={onToggleLike}
+                  className="flex items-center gap-1.5 group p-1.5 rounded-full hover:bg-rose-950/30 transition"
+                >
+                  <Icons.Heart filled={isLiked} />
+                  <span className={`text-xs ${isLiked ? 'text-rose-500 font-bold' : 'group-hover:text-rose-400'}`}>
+                    {likesCount > 0 && likesCount}
+                  </span>
+                </button>
+
+                {/* Comment Button */}
+                <button
+                  onClick={onOpenComment}
+                  className="flex items-center gap-1.5 group p-1.5 rounded-full hover:bg-blue-950/30 transition"
+                >
+                  <Icons.Comment />
+                  <span className="text-xs group-hover:text-blue-400">
+                    {commentsCount > 0 && commentsCount}
+                  </span>
+                </button>
+
+                {/* Bookmark Button */}
+                <button
+                  onClick={onToggleBookmark}
+                  className="p-1.5 rounded-full hover:bg-yellow-950/30 transition"
+                >
+                  <Icons.Bookmark filled={isBookmarked} />
+                </button>
+
+                {/* Share Button */}
+                <button
+                  onClick={() => {
+                    if (navigator.share) {
+                      navigator.share({ title: "Inter X", text: post.text, url: window.location.href });
+                    } else {
+                      navigator.clipboard.writeText(window.location.href);
+                      alert("لینک کپی شد!");
+                    }
+                  }}
+                  className="p-1.5 rounded-full hover:bg-blue-950/30 transition"
+                >
+                  <Icons.Share />
+                </button>
+              </div>
+
+            </div>
+          </div>
+        </article>
+      );
+    }
+
+    // ==========================================
+    // 10. COMMENT MODAL
+    // ==========================================
+    function CommentRow({ comment, preferredLanguage, ensureTranslation, translationCache, translationLoading, showOriginal, onToggleOriginal, uiLang }) {
+      const tt = (key) => UI_TEXT[uiLang]?.[key] || UI_TEXT.en[key] || key;
+      const detectedCommentLang = guessLanguage(comment.text || "");
+      const sourceLang = detectedCommentLang === "auto" ? (comment.lang || "auto") : detectedCommentLang;
+      const shouldTranslate = !!preferredLanguage && preferredLanguage !== sourceLang;
+      const key = `comment:${comment.id}:${preferredLanguage}`;
+      const translated = translationCache[key];
+      const loading = !!translationLoading[key];
+
+      useEffect(() => {
+        if (shouldTranslate && showOriginal) {
+          ensureTranslation("comment", comment.id, comment.text, sourceLang);
+        }
+      }, [shouldTranslate, showOriginal, ensureTranslation, comment.id, comment.text, sourceLang]);
+
+      const text = showOriginal && shouldTranslate && translated ? translated : comment.text;
+
+      return (
+        <div className="pt-2 flex gap-2.5">
+          <div className="w-7 h-7 rounded-full bg-blue-900/40 text-blue-400 font-bold text-xs flex items-center justify-center shrink-0">
+            {comment.displayName?.[0] || "I"}
+          </div>
+          <div>
+            <div className="flex items-center gap-1 text-xs">
+              <span className="font-bold text-white">{comment.displayName}</span>
+              <span className="text-zinc-500">@{comment.username}</span>
+            </div>
+            <p data-user-content className="text-xs text-zinc-200 mt-0.5">{text}</p>
+            {shouldTranslate && (
+              <div className="text-[10px] mt-0.5 flex items-center gap-2">
+                {showOriginal && translated && <span className="text-emerald-400">{tt("translated")}</span>}
+                {showOriginal && loading && <span className="text-zinc-500">{tt("translateLoading")}</span>}
+                <button onClick={onToggleOriginal} className="text-blue-400 hover:underline">{showOriginal ? tt("showOriginal") : tt("translate")}</button>
+              </div>
+            )}
+          </div>
+        </div>
+      );
+    }
+
+    function CommentModal({ postId, post, comments, currentUser, onAddComment, onClose, onRequireAuth, preferredLanguage, ensureTranslation, translationCache, translationLoading, showOriginalMap, onToggleOriginal, uiLang }) {
+      const [commentText, setCommentText] = useState("");
+
+      const handleSend = () => {
+        if (!currentUser) {
+          onRequireAuth();
+          return;
+        }
+        if (!commentText.trim()) return;
+        onAddComment(commentText);
+        setCommentText("");
+      };
+
+      return (
+        <Modal title="Comments" onClose={onClose}>
+          <div className="space-y-4">
+            {post && (
+              <div className="p-3 rounded-2xl bg-zinc-900/60 border border-zinc-800 text-xs text-zinc-300">
+                <span className="font-bold text-white block mb-1">@{post.username}:</span>
+                {post.text}
+              </div>
+            )}
+
+            {/* Comments List */}
+            <div className="space-y-2 max-h-60 overflow-y-auto pr-1 divide-y divide-zinc-800/40">
+              {comments.length === 0 ? (
+                <div className="text-center py-6 text-xs text-zinc-500">Be the first to comment.</div>
+              ) : (
+                comments.map(c => (
+                  <CommentRow
+                    key={c.id}
+                    comment={c}
+                    preferredLanguage={preferredLanguage}
+                    ensureTranslation={ensureTranslation}
+                    translationCache={translationCache}
+                    translationLoading={translationLoading}
+                    showOriginal={!!showOriginalMap[`comment:${c.id}`]}
+                    onToggleOriginal={() => onToggleOriginal("comment", c.id)}
+                    uiLang={uiLang}
+                  />
+                ))
+              )}
+            </div>
+
+            {/* Input Box */}
+            <div className="flex gap-2 pt-2 border-t border-zinc-800">
+              <input
+                type="text"
+                value={commentText}
+                onChange={(e) => setCommentText(e.target.value)}
+                placeholder="Write a comment..."
+                className="flex-1 bg-zinc-900 border border-zinc-800 rounded-xl px-3 py-2 text-xs text-white outline-none focus:border-blue-500"
+              />
+              <button
+                onClick={handleSend}
+                className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 font-bold text-xs text-white"
+              >
+                ارسال
+              </button>
+            </div>
+          </div>
+        </Modal>
+      );
+    }
+
+    // ==========================================
+    // 11. PROFILE VIEW COMPONENT
+    // ==========================================
+    function ProfileView({ userId, currentUser, users, posts, likes, comments, bookmarks, follows, onUpdateProfile, onToggleLike, onToggleBookmark, onToggleFollow, onOpenComment, onDelete, onOpenMedia, onUserClick, preferredLanguage, ensureTranslation, translationCache, translationLoading, showOriginalMap, onToggleOriginal, uiLang }) {
+      const user = users.find(u => u.id === userId) || currentUser;
+      const isOwner = currentUser?.id === user?.id;
+      const tt = (key) => UI_TEXT[uiLang]?.[key] || UI_TEXT.en[key] || key;
+      const isFollowing = !!(currentUser && user && currentUser.id !== user.id && (follows?.[currentUser.id] || []).includes(user.id));
+      const followingCount = (follows?.[user?.id] || []).length;
+      const followersCount = Object.values(follows || {}).filter((ids) => Array.isArray(ids) && ids.includes(user?.id)).length;
+      const [editModalOpen, setEditModalOpen] = useState(false);
+      const [bioText, setBioText] = useState(user?.bio || "");
+      const [nameText, setNameText] = useState(user?.displayName || "");
+
+      const userPosts = [...posts].filter(p => p.userId === user?.id).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
+      if (!user) {
+        return <div className="p-8 text-center text-zinc-500 text-sm">پروفایل پیدا نشد.</div>;
+      }
+
+      return (
+        <div>
+          {/* Header Banner */}
+          <div className="h-32 bg-gradient-to-r from-blue-950 via-zinc-900 to-black border-b border-zinc-800 relative">
+            <div className="absolute -bottom-10 right-6 w-20 h-20 rounded-full ring-4 ring-black bg-zinc-900 border-2 border-blue-500/40 overflow-hidden flex items-center justify-center font-black text-2xl text-blue-400">
+              {user.avatar ? <img src={user.avatar} className="w-full h-full object-cover" /> : user.displayName[0]}
+            </div>
+          </div>
+
+          <div className="px-6 pt-12 pb-4 space-y-3">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-xl font-black text-white flex items-center gap-1.5">
+                  {user.displayName}
+                  {user.verified && <Icons.Verified />}
+                </h2>
+                <span className="text-xs text-zinc-400 font-mono">@{user.username}</span>
+              </div>
+              {isOwner && (
+                <button
+                  onClick={() => setEditModalOpen(true)}
+                  className="px-4 py-1.5 rounded-full border border-zinc-700 hover:bg-zinc-800 font-bold text-xs text-white transition"
+                >
+                  ویرایش پروفایل
+                </button>
+              )}
+              {!isOwner && currentUser && (
+                <button
+                  onClick={() => onToggleFollow(user.id)}
+                  className={`px-4 py-1.5 rounded-full font-bold text-xs transition ${isFollowing ? 'border border-zinc-700 text-white hover:bg-zinc-800' : 'bg-blue-600 text-white hover:bg-blue-500'}`}
+                >
+                  {isFollowing ? tt("unfollow") : tt("follow")}
+                </button>
+              )}
+            </div>
+
+            <p className="text-sm text-zinc-200">{user.bio || "Inter Milan supporter"}</p>
+
+            <div className="flex items-center gap-4 text-xs text-zinc-400 pt-1">
+              <span>💙 عضو از {new Date(user.joinedAt || Date.now()).toLocaleDateString("fa-IR")}</span>
+              <span>•</span>
+              <span><b className="text-white">{userPosts.length}</b> پست</span>
+              <span>•</span>
+              <span><b className="text-white">{followersCount}</b> دنبال کننده</span>
+              <span><b className="text-white">{followingCount}</b> دنبال شونده</span>
+            </div>
+          </div>
+
+          {/* User Posts Feed */}
+          <div className="border-t border-zinc-800/80 divide-y divide-zinc-800/50">
+            {userPosts.length === 0 ? (
+              <div className="p-12 text-center text-xs text-zinc-500">پستی توسط این کاربر منتشر نشده است.</div>
+            ) : (
+              userPosts.map(post => (
+                <PostCard
+                  key={post.id}
+                  post={post}
+                  currentUser={currentUser}
+                  isLiked={(likes[post.id] || []).includes(currentUser?.id)}
+                  likesCount={(likes[post.id] || []).length}
+                  isBookmarked={(bookmarks[currentUser?.id] || []).includes(post.id)}
+                  commentsCount={comments.filter(c => c.postId === post.id).length}
+                  onToggleLike={() => onToggleLike(post.id)}
+                  onToggleBookmark={() => onToggleBookmark(post.id)}
+                  onOpenComment={() => onOpenComment(post.id)}
+                  onDelete={() => onDelete(post.id)}
+                  onOpenMedia={onOpenMedia}
+                  onUserClick={(uid) => onUserClick(uid)}
+                  preferredLanguage={preferredLanguage}
+                  ensureTranslation={ensureTranslation}
+                  translationCache={translationCache}
+                  translationLoading={translationLoading}
+                  showOriginal={!!showOriginalMap[`post:${post.id}`]}
+                  onToggleOriginal={() => onToggleOriginal("post", post.id)}
+                  uiLang={uiLang}
+                />
+              ))
+            )}
+          </div>
+
+          {/* Edit Profile Modal */}
+          {editModalOpen && (
+            <Modal title="Edit profile" onClose={() => setEditModalOpen(false)}>
+              <div className="space-y-3">
+                <div>
+                  <label className="text-xs text-zinc-400 block mb-1">نام نمایشی</label>
+                  <input
+                    type="text"
+                    value={nameText}
+                    onChange={(e) => setNameText(e.target.value)}
+                    className="w-full bg-zinc-900 border border-zinc-800 rounded-xl p-2.5 text-xs text-white"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs text-zinc-400 block mb-1">درباره شما (Bio)</label>
+                  <textarea
+                    value={bioText}
+                    onChange={(e) => setBioText(e.target.value)}
+                    rows="3"
+                    className="w-full bg-zinc-900 border border-zinc-800 rounded-xl p-2.5 text-xs text-white"
+                  />
+                </div>
+                <button
+                  onClick={() => {
+                    onUpdateProfile({ ...user, displayName: nameText, bio: bioText });
+                    setEditModalOpen(false);
+                  }}
+                  className="w-full py-2.5 rounded-xl bg-blue-600 font-bold text-xs text-white"
+                >
+                  ذخیره تغییرات
+                </button>
+              </div>
+            </Modal>
+          )}
+        </div>
+      );
+    }
+
+    // ==========================================
+    // 12. SECURE AUTH MODAL (PBKDF2 SHA-256)
+    // ==========================================
+    function AuthModal({ users, onClose, onSuccess }) {
+      const [isRegister, setIsRegister] = useState(false);
+      const [username, setUsername] = useState("");
+      const [displayName, setDisplayName] = useState("");
+      const [password, setPassword] = useState("");
+      const [loading, setLoading] = useState(false);
+      const [error, setError] = useState("");
+
+      const handleAuth = async (e) => {
+        e.preventDefault();
+        setError("");
+        const cleanUser = SecurityEngine.sanitizeUsername(username);
+
+        if (cleanUser.length < 3) {
+          setError("Username must be at least 3 characters without spaces.");
+          return;
+        }
+
+        if (!SecurityEngine.validatePassword(password)) {
+          setError("Password must have at least 8 chars and include upper, lower and number.");
+          return;
+        }
+
+        setLoading(true);
+        try {
+          const existing = users.find(u => u.username === cleanUser);
+
+          if (isRegister) {
+            if (existing) {
+              setError("This username is already taken.");
+              setLoading(false);
+              return;
+            }
+            const passwordRecord = await SecurityEngine.createPasswordRecord(password);
+            const newUser = {
+              id: "u_" + Date.now() + "_" + Math.random().toString(36).slice(2, 6),
+              username: cleanUser,
+              displayName: displayName.trim() || cleanUser,
+              bio: "Inter Milan supporter",
+              avatar: "",
+              passwordRecord,
+              joinedAt: Date.now()
+            };
+            onSuccess(newUser);
+          } else {
+            if (!existing) {
+              // Auto register with secure hash
+              const passwordRecord = await SecurityEngine.createPasswordRecord(password);
+              const newUser = {
+                id: "u_" + Date.now(),
+                username: cleanUser,
+                displayName: cleanUser,
+                bio: "Inter Milan supporter",
+                avatar: "",
+                passwordRecord,
+                joinedAt: Date.now()
+              };
+              onSuccess(newUser);
+              return;
+            }
+            if (existing.passwordRecord) {
+              const isValid = await SecurityEngine.verifyPassword(password, existing.passwordRecord);
+              if (!isValid) {
+                setError("Invalid password.");
+                setLoading(false);
+                return;
+              }
+            }
+            onSuccess(existing);
+          }
+        } catch (err) {
+          setError("Security error while processing password.");
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      return (
+        <Modal title={isRegister ? "Create account" : "Secure login"} onClose={onClose}>
+          <form onSubmit={handleAuth} className="space-y-3.5">
+            {error && (
+              <div className="p-2.5 rounded-xl bg-rose-950/80 border border-rose-500/40 text-rose-200 text-xs font-semibold">
+                {error}
+              </div>
+            )}
+
+            {isRegister && (
+              <div>
+                <label className="text-xs text-zinc-400 block mb-1">نام و نام خانوادگی / لقب</label>
+                <input
+                  type="text"
+                  required
+                  value={displayName}
+                  onChange={(e) => setDisplayName(e.target.value)}
+                  placeholder="Example: Alex Nerazzurri"
+                  className="w-full bg-zinc-900 border border-zinc-800 rounded-xl p-2.5 text-xs text-white outline-none focus:border-blue-500"
+                />
+              </div>
+            )}
+
+            <div>
+              <label className="text-xs text-zinc-400 block mb-1">نام کاربری (Username)</label>
+              <input
+                type="text"
+                required
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="example_user"
+                className="w-full bg-zinc-900 border border-zinc-800 rounded-xl p-2.5 text-xs text-white outline-none focus:border-blue-500 font-mono"
+              />
+              <span className="text-[10px] text-zinc-500">حروف انگلیسی، عدد و زیرخط</span>
+            </div>
+
+            <div>
+              <label className="text-xs text-zinc-400 block mb-1">رمز عبور امن (PBKDF2 SHA-256)</label>
+              <input
+                type="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="At least 8 chars with uppercase and number"
+                className="w-full bg-zinc-900 border border-zinc-800 rounded-xl p-2.5 text-xs text-white outline-none focus:border-blue-500 font-mono"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-500 font-bold text-xs text-white shadow-lg shadow-blue-900/40 transition flex items-center justify-center gap-2"
+            >
+              {loading ? "Processing..." : (isRegister ? "Create account" : "Login")}
+            </button>
+
+            <div className="text-center pt-2 text-xs text-zinc-400">
+              <button
+                type="button"
+                onClick={() => { setIsRegister(!isRegister); setError(""); }}
+                className="text-blue-400 hover:underline font-bold"
+              >
+                {isRegister ? "Already have an account? Login" : "No account? Sign up"}
+              </button>
+            </div>
+          </form>
+        </Modal>
+      );
+    }
+
+    // ==========================================
+    // 13. GENERIC REUSABLE MODAL
+    // ==========================================
+    function Modal({ title, children, onClose }) {
+      return (
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4" onClick={onClose}>
+          <div className="w-full max-w-lg bg-zinc-950 border border-zinc-800/80 rounded-3xl p-5 shadow-2xl space-y-4 animate-slide-down" onClick={e => e.stopPropagation()}>
+            <div className="flex items-center justify-between border-b border-zinc-800/60 pb-3">
+              <h3 className="text-sm font-bold text-white">{title}</h3>
+              <button onClick={onClose} className="text-zinc-500 hover:text-white p-1 rounded-full hover:bg-zinc-900 transition">✕</button>
+            </div>
+            {children}
+          </div>
+        </div>
+      );
+    }
+
+    // ==========================================
+    // 14. MOUNT REACT APP
+    // ==========================================
+    const rootElement = document.getElementById("root");
+    const root = ReactDOM.createRoot(rootElement);
+    root.render(<InterXApp />);
+  </script>
+</body>
+</html>
